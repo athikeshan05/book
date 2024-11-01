@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+</head>
+<body>
+<style>    table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .approved {
+    color: green;
+  }
+  .rejected {
+    color: red;
+  }
+</style>
+  <!-- Background Image -->
+  <div class="background"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="#">Manage Patients</a></li>
+      <li><a href="#">View Appointments</a></li>
+      <li><a href="#">Medical Records</a></li>
+      <li><a href="#">Communication</a></li>
+      <li><a href="#">Approve/Reject Appointments</a></li>
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Welcome Heading -->
+  <div class="welcome">
+    <h2>Welcome to Doctor Dashboard</h2>
+  </div>
+
+  <!-- Dashboard Functionalities -->
+  <div class="container">
+    <div class="card">
+      <h3>Manage Patients</h3>
+      <p>View and manage your patients' details and records.</p>
+      <a href="#">Go to Patients</a>
+    </div>
+
+    <div class="card">
+      <h3>View Appointments</h3>
+      <p>Manage and view all upcoming and past appointments.</p>
+      <a href="#">View Appointments</a>
+    </div>
+
+    <div class="card">
+      <h3>Medical Records</h3>
+      <p>Access and update patient medical histories and treatment plans.</p>
+      <a href="#">View Medical Records</a>
+    </div>
+
+
+    <div class="card">
+      <h3>Approve/Reject Appointments</h3>
+      <p>Approve or reject patient appointment requests.</p>
+      <a href="#">Manage Appointments</a>
+    </div>
+<!-- doctor_dashboard.html -->
+<div class="notifications">
+  <h3>Notifications</h3>
+  <ul id="notification-list">
+      {% for notification in notifications %}
+          <li>
+              New message from {{ notification.sender.name }}: 
+              <a href="#" class="notification-link" data-sender-id="{{ notification.sender_id }}" data-receiver-id="{{ notification.receiver_id }}">View Message</a>
+          </li>
+      {% else %}
+          <li>No new messages.</li>
+      {% endfor %}
+  </ul>
+</div>
+
+<div class="chat-section" id="chat-window" style="display:none;">
+  <h3>Chat with Patient: <span id="patient-name"></span></h3>
+  <div id="chat-messages"></div>
+  <input type="text" id="message-input" placeholder="Type your message here...">
+  <button id="send-message" data-sender-id="{{ doctor_id }}" data-receiver-id="">Send</button>
+</div></div>
+
+  
+  </body>
+  </html>

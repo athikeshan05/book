@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Details Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor-style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Doctor Registration Form</h2>
+        <form id="doctor-form" method="POST">
+            <!-- Personal Information Section -->
+            <div class="section">
+                <h3>Personal Information</h3>
+                <label for="doctor-name">Full Name:</label>
+                <input type="text" id="doctor-name" name="doctor-name" required>
+
+                <label for="doctor-email">Email:</label>
+                <input type="email" id="doctor-email" name="doctor-email" required>
+
+                <label for="doctor-phone">Phone Number:</label>
+                <input type="tel" id="doctor-phone" name="doctor-phone" required>
+
+                <label for="doctor-gender">Gender:</label>
+                <select id="doctor-gender" name="doctor-gender" required>
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="doctor-photo">Profile Photo:</label>
+                <input type="file" id="doctor-photo" name="doctor-photo" accept="image/*">
+            </div>
+
+            <!-- Qualifications Section -->
+            <div class="section">
+                <h3>Qualifications</h3>
+                <label for="doctor-degree">Degree:</label>
+                <input type="text" id="doctor-degree" name="doctor-degree" placeholder="e.g. MBBS, MD, etc." required>
+
+                <label for="doctor-certifications">Certifications:</label>
+                <textarea id="doctor-certifications" name="doctor-certifications" rows="3" placeholder="List your certifications" required></textarea>
+
+                <label for="doctor-experience">Years of Experience:</label>
+                <input type="number" id="doctor-experience" name="doctor-experience" required>
+
+                <label for="doctor-license">Medical License Number:</label>
+                <input type="text" id="doctor-license" name="doctor-license" required>
+            </div>
+
+            <!-- Specialization Section -->
+            <div class="section">
+                <h3>Specialization</h3>
+                <label for="doctor-specialization">Specialty:</label>
+                <input type="text" id="doctor-specialization" name="doctor-specialization" placeholder="e.g. Cardiologist, Dermatologist" required>
+
+                <label for="doctor-subspecialty">Subspecialty (if applicable):</label>
+                <input type="text" id="doctor-subspecialty" name="doctor-subspecialty" placeholder="e.g. Pediatric Cardiologist">
+            </div>
+
+            <!-- Consultation Details Section -->
+            <div class="section">
+                <h3>Consultation and Fee Details</h3>
+                <label for="doctor-fees">Consultation Fees:</label>
+                <input type="number" id="doctor-fees" name="doctor-fees" placeholder="Enter the amount in your currency" required>
+
+                <label for="doctor-payment-methods">Payment Methods Accepted:</label>
+                <input type="text" id="doctor-payment-methods" name="doctor-payment-methods" placeholder="e.g. Cash, Card, Digital Payments">
+
+                <label for="doctor-insurance">Insurance Accepted:</label>
+                <input type="text" id="doctor-insurance" name="doctor-insurance" placeholder="e.g. List of accepted insurance plans">
+            </div>
+
+            <!-- Availability and Working Hours Section -->
+            <div class="section">
+                <h3>Working Hours and Availability</h3>
+                <label for="doctor-working-hours">Working Days:</label>
+                <input type="text" id="doctor-working-hours" name="doctor-working-hours" placeholder="e.g. Monday to Friday" required>
+
+                <label for="doctor-working-time">Working Hours:</label>
+                <input type="text" id="doctor-working-time" name="doctor-working-time" placeholder="e.g. 9:00 AM to 5:00 PM" required>
+
+                <label for="doctor-emergency">Emergency Availability:</label>
+                <select id="doctor-emergency" name="doctor-emergency" required>
+                    <option value="">Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <!-- Location and Contact Section -->
+            <div class="section">
+                <h3>Clinic/Hospital Location and Contact</h3>
+                <label for="doctor-clinic">Clinic/Hospital Name:</label>
+                <input type="text" id="doctor-clinic" name="doctor-clinic" required>
+
+                <label for="doctor-address">Clinic/Hospital Address:</label>
+                <textarea id="doctor-address" name="doctor-address" rows="3" placeholder="Enter the complete address" required></textarea>
+
+                <label for="doctor-telemedicine">Telemedicine Services:</label>
+                <select id="doctor-telemedicine" name="doctor-telemedicine" required>
+                    <option value="">Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <!-- Languages Spoken Section -->
+            <div class="section">
+                <h3>Languages Spoken</h3>
+                <label for="doctor-languages">Languages:</label>
+                <input type="text" id="doctor-languages" name="doctor-languages" placeholder="e.g. English, Spanish, French" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/healthstyle.css') }}">
+    <style>
+        body {
+          background: url("{{ url_for('static', filename='images/medical.jpeg') }}") no-repeat center center fixed;
+          background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div><h1>Health Details</h1></div>
+        {% if health_history %}
+        <h4>Personal Information</h4>
+        <p><strong>Full Name:</strong> {{ health_history.full_name }}</p>
+        <p><strong>Age:</strong> {{ health_history.age }}</p>
+        <p><strong>Gender:</strong> {{ health_history.gender }}</p>
+      
+        <h4>Medical History</h4>
+        <p><strong>High Blood Pressure:</strong> {{ health_history.high_blood_pressure }}</p>
+        <p><strong>Blood Pressure Rate:</strong> {{ health_history.blood_pressure_rate }}</p>
+        <p><strong>Diabetes:</strong> {{ health_history.diabetes }}</p>
+        <p><strong>Glucose Level:</strong> {{ health_history.glucose_level }}</p>
+        <p><strong>Allergies:</strong> {{ health_history.allergies }}</p>
+        <p><strong>Allergy Info:</strong> {{ health_history.allergy_info }}</p>
+      
+        <h4>Family History</h4>
+        <p><strong>Heart Disease:</strong> {{ health_history.family_heart_disease }}</p>
+        <p><strong>Cancer:</strong> {{ health_history.family_cancer }}</p>
+      
+        <h4>Lifestyle</h4>
+        <p><strong>Smoking:</strong> {{ health_history.smoke }}</p>
+        <p><strong>Alcohol:</strong> {{ health_history.alcohol }}</p>
+        {% else %}
+        <p>No health history available. Please update your health details.</p>
+        {% endif %}
+        
+        <!-- Add Edit button to allow the patient to modify their details -->
+        <a href="{{ url_for('edit_health_details') }}" class="btn btn-primary">Edit</a>
+        
+        <a href="{{ url_for('patient_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

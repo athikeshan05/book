@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor-Patient Login System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h2>Login</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="flash {{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" id="login-form">
+        <select id="user-type" name="user-type">
+          <option value="doctor">Doctor</option>
+          <option value="patient">Patient</option>
+        </select>
+        <input type="email" id="login-email" name="email" placeholder="Email" required>
+        <input type="password" id="login-password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <p>New user? <a href="{{ url_for('signup') }}">Sign up</a></p>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+</body>
+</html>

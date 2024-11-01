@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Reminders</title>
+ 
+</head><style>
+      body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Medication Section */
+        .medication-management {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .medication-management h2 {
+            color: #333;
+        }
+
+        .medication-list {
+            margin: 20px 0;
+        }
+
+        .medication-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .medication-list th, .medication-list td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Add New Medication Section */
+        .add-medication {
+            margin: 20px 0;
+        }
+
+        .add-medication form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .add-medication input[type="text"], .add-medication select {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-medication button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Reminder Section */
+        .reminder-section {
+            margin-top: 40px;
+        }
+
+        .reminder-section h2 {
+            color: #333;
+        }
+
+        .reminder-schedule {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .reminder-schedule select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* Save Button */
+        .save-btn {
+            margin-top: 20px;
+        }
+
+        .save-btn button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .add-medication form, .reminder-schedule {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h2 {
+    color: #4CAF50;
+}
+
+h3 {
+    margin-top: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 300px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+</style>
+<body>
+
+    <h2>Medication Management</h2>
+
+    <!-- Form to manually add medication -->
+    <h3>Enter Medication Manually</h3>
+    <form id="manualForm" action="/add_medication" method="POST">
+        <label for="med_name">Medication Name:</label>
+        <input type="text" id="med_name" name="med_name" required>
+        <label for="dosage">Dosage:</label>
+        <input type="text" id="dosage" name="dosage" required>
+        <label for="schedule">Schedule:</label>
+        <input type="text" id="schedule" name="schedule" required>
+        <button type="submit">Add Medication</button>
+    </form>
+
+    <!-- Upload medication sheet -->
+    <h3>Upload Medication Sheet</h3>
+    <form id="uploadForm" action="/upload_medsheet" method="POST" enctype="multipart/form-data">
+        <input type="file" name="medsheet" accept=".pdf, .jpg, .png, .txt" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <!-- Medication List (Populated Automatically) -->
+    <h3>Current Medications</h3>
+    <div class="medication-management">
+        <table>
+            <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Schedule</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="medication-list">
+                <!-- This will be dynamically filled -->
+            </tbody>
+        </table>
+    </div>
+    <div class="reminder-section">
+        <h2>Reminder Schedule</h2>
+
+        <div class="reminder-schedule">
+            <select id="reminderFrequency">
+                <option value="" disabled selected>Set Reminder Frequency</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Custom">Custom</option>
+            </select><br>
+
+            <select id="notificationMethod" onchange="toggleNotificationFields()">
+                <option value="" disabled selected>Select Notification Method</option>
+                <option value="Email">Email</option>
+                <option value="SMS">SMS</option>
+            </select><br>
+
+            <input type="text" id="medicineName" placeholder="Enter medicine name" required /><br>
+            <input type="text" id="email" placeholder="Enter your email" style="display:none;" /><br>
+            <input type="text" id="smsNumber" placeholder="Enter your SMS number" style="display:none;" /><br>
+            <input type="time" id="alarmTime" required /><br>
+
+            <button class="save-btn" onclick="saveReminder()">Save Changes</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle visibility of Email/SMS fields
+        function toggleNotificationFields() {
+            const notificationMethod = document.getElementById('notificationMethod').value;
+            const emailField = document.getElementById('email');
+            const smsField = document.getElementById('smsNumber');
+
+            if (notificationMethod === 'Email') {
+                emailField.style.display = 'block';
+                smsField.style.display = 'none';
+            } else if (notificationMethod === 'SMS') {
+                smsField.style.display = 'block';
+                emailField.style.display = 'none';
+            } else {
+                emailField.style.display = 'none';
+                smsField.style.display = 'none';
+            }
+        }
+
+        // Function to save reminder and send the data to the Flask backend
+        function saveReminder() {
+            const medicineName = document.getElementById("medicineName").value;
+            const reminderFrequency = document.getElementById("reminderFrequency").value;
+            const notificationMethod = document.getElementById("notificationMethod").value;
+            const email = document.getElementById("email").value;
+            const smsNumber = document.getElementById("smsNumber").value;
+            const alarmTime = document.getElementById("alarmTime").value;
+
+            // Validate required fields
+            if (!medicineName || !reminderFrequency || !notificationMethod || !alarmTime) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            // Prepare data to send to the backend
+            const reminderData = {
+                medicineName,
+                reminderFrequency,
+                notificationMethod,
+                email: notificationMethod === 'Email' ? email : '',
+                smsNumber: notificationMethod === 'SMS' ? smsNumber : '',
+                alarmTime
+            };
+
+            // Send data to the backend using fetch
+            // Send data to the backend using fetch
+fetch('/set_reminder', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reminderData)
+})
+.then(response => response.json())
+.then(data => {
+    alert(data.message);
+})
+.catch(error => {
+    console.error('Error:', error);
+    alert("Failed to set reminder.");
+});
+
+        }
+
+        // Function to populate the medication list
+        function populateMedicationList(medications) {
+            const medicationList = document.getElementById('medication-list');
+            medicationList.innerHTML = '';  // Clear the list
+
+            medications.forEach(med => {
+                const row = `
+                    <tr>
+                        <td>${med.name}</td>
+                        <td>${med.dosage}</td>
+                        <td>${med.schedule}</td>
+                  
+                    </tr>
+                `;
+                medicationList.innerHTML += row;
+            });
+        }
+
+        // Fetch the current medications from the server
+        async function fetchMedications() {
+            const response = await fetch('/get_medications');
+            const medications = await response.json();
+            populateMedicationList(medications);
+        }
+
+        // Fetch medications on page load
+        window.onload = fetchMedications;
+
+        // Handle manual form submission and update medication list
+        document.getElementById('manualForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/add_medication', {
+                method: 'POST',
+                body: formData
+            });
+            const medications = await response.json();
+            populateMedicationList(medications);
+        });
+
+        // Handle file upload form submission and update medication list
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/upload_medsheet', {
+                method: 'POST',
+                body: formData
+            });
+            const medications = await response.json();
+            populateMedicationList(medications);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Health Information</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Patient Health Information</h2>
+        <form id="health-form" method="POST">
+            <!-- Personal Information -->
+            <div class="section">
+                <h3>Personal Information</h3>
+                <label for="full-name">Full Name:</label>
+                <input type="text" id="full-name" name="full-name" required>
+
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Medical History -->
+            <div class="section">
+                <h3>Medical History</h3>
+                <label>Do you have high blood pressure?</label>
+                <div class="radio-group">
+                    <input type="radio" name="blood-pressure" value="yes" required> Yes
+                    <input type="radio" name="blood-pressure" value="no"> No
+                </div>
+
+                <div id="pressure-rate" class="hidden">
+                    <label for="pressure-rate-input">Enter your Blood Pressure Rate:</label>
+                    <input type="text" id="pressure-rate-input" name="pressure-rate-input" placeholder="e.g. 120/80">
+                </div>
+
+                <label>Do you have diabetes?</label>
+                <div class="radio-group">
+                    <input type="radio" name="diabetes" value="yes" required> Yes
+                    <input type="radio" name="diabetes" value="no"> No
+                </div>
+
+                <div id="diabetes-details" class="hidden">
+                    <label for="glucose-level">Enter your Glucose Level (mg/dL):</label>
+                    <input type="text" id="glucose-level" name="glucose-level" placeholder="e.g. 100">
+                </div>
+
+                <label>Do you have any allergies?</label>
+                <div class="radio-group">
+                    <input type="radio" name="allergies" value="yes" required> Yes
+                    <input type="radio" name="allergies" value="no"> No
+                </div>
+
+                <div id="allergies-details" class="hidden">
+                    <label for="allergy-info">Describe your allergies:</label>
+                    <textarea id="allergy-info" name="allergy-info" rows="3" placeholder="e.g. Pollen, Dust, Nuts, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Family History -->
+            <div class="section">
+                <h3>Family Medical History</h3>
+                <label>Do you have any family history of heart disease?</label>
+                <div class="radio-group">
+                    <input type="radio" name="family-heart-disease" value="yes" required> Yes
+                    <input type="radio" name="family-heart-disease" value="no"> No
+                </div>
+
+                <label>Do you have any family history of cancer?</label>
+                <div class="radio-group">
+                    <input type="radio" name="family-cancer" value="yes" required> Yes
+                    <input type="radio" name="family-cancer" value="no"> No
+                </div>
+            </div>
+
+            <!-- Lifestyle -->
+            <div class="section">
+                <h3>Lifestyle Information</h3>
+                <label>Do you smoke?</label>
+                <div class="radio-group">
+                    <input type="radio" name="smoke" value="yes" required> Yes
+                    <input type="radio" name="smoke" value="no"> No
+                </div>
+
+                <label>Do you consume alcohol?</label>
+                <div class="radio-group">
+                    <input type="radio" name="alcohol" value="yes" required> Yes
+                    <input type="radio" name="alcohol" value="no"> No
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script1.js') }}"></script>
+</body>
+</html>

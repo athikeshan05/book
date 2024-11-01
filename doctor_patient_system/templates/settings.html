@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settingstyle.css') }}">
+</head>
+<body>
+
+    {% if get_flashed_messages() %}
+    <div class="flash-messages">
+      {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <h2>Settings</h2>
+
+    <form method="POST">
+        <!-- Common Settings -->
+        <div>
+            <h3>General Settings</h3>
+            <label for="notification_preferences">Notification Preferences:</label>
+            <select name="notification_preferences">
+                <option value="email" {% if user.notification_preferences == 'email' %}selected{% endif %}>Email</option>
+                <option value="sms" {% if user.notification_preferences == 'sms' %}selected{% endif %}>SMS</option>
+                <option value="none" {% if user.notification_preferences == 'none' %}selected{% endif %}>None</option>
+            </select><br>
+
+            <label for="language">Language Preferences:</label>
+            <select name="language">
+                <option value="English" {% if user.language == 'English' %}selected{% endif %}>English</option>
+                <option value="Tamil" {% if user.language == 'Tamil' %}selected{% endif %}>Tamil</option>
+            </select><br>
+
+            <label for="timezone">Time Zone:</label>
+            <input type="text" name="timezone" value="{{ user.timezone }}"><br>
+        </div>
+
+        <!-- Doctor-specific settings -->
+        {% if user.role == 'doctor' %}
+        <div>
+            <h3>Doctor-Specific Settings</h3>
+            <label for="consultation_type">Consultation Type:</label>
+            <select name="consultation_type">
+                <option value="telemedicine" {% if user.consultation_type == 'telemedicine' %}selected{% endif %}>Telemedicine</option>
+                <option value="in-person" {% if user.consultation_type == 'in-person' %}selected{% endif %}>In-person</option>
+            </select><br>
+
+            <label for="appointment_duration">Appointment Duration (minutes):</label>
+            <input type="number" name="appointment_duration" value="{{ user.appointment_duration }}"><br>
+
+            <label for="profile_visibility">Profile Visibility:</label>
+            <input type="checkbox" name="profile_visibility" {% if user.profile_visibility %}checked{% endif %}><br>
+
+            <label for="fee_management">Consultation Fees:</label>
+            <input type="number" name="fee_management" value="{{ user.fee_management }}"><br>
+        </div>
+        {% endif %}
+
+        <!-- Patient-specific settings -->
+        {% if user.role == 'patient' %}
+        <div>
+            <h3>Patient-Specific Settings</h3>
+            <label for="health_record_sharing">Health Record Sharing:</label>
+            <input type="checkbox" name="health_record_sharing" {% if user.health_record_sharing %}checked{% endif %}><br>
+
+            <label for="appointment_reminders">Appointment Reminders:</label>
+            <select name="appointment_reminders">
+                <option value="email" {% if user.appointment_reminders == 'email' %}selected{% endif %}>Email</option>
+                <option value="sms" {% if user.appointment_reminders == 'sms' %}selected{% endif %}>SMS</option>
+            </select><br>
+
+            <label for="medication_reminders">Medication Reminders:</label>
+            <input type="checkbox" name="medication_reminders" {% if user.medication_reminders %}checked{% endif %}><br>
+        </div>
+        {% endif %}
+
+        <button type="submit">Save Settings</button>
+        <a href="{{ url_for('doctor_dashboard') if user.role == 'doctor' else url_for('patient_dashboard') }}">Back to Dashboard</a>
+    </form>
+</body>
+</html>

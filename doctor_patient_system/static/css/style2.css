@@ -1,0 +1,136 @@
+/* Background Styles */
+.background {
+  background-image: url("../images/doctor_background.jpg"); /* Use the appropriate path to your background image */
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.9; /* Adjust for slight overlay effect */
+}
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.navbar {
+  background-color: rgba(0, 123, 255, 0.9);
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar ul li {
+  margin: 0 20px;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+.welcome {
+  text-align: center;
+  margin: 60px 0 40px;
+}
+
+h2 {
+  font-size: 36px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Container Styles */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+  z-index: 1;
+  position: relative;
+}
+
+/* Card Styles */
+.card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  width: 280px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  color: #007BFF;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.card a {
+  display: inline-block;
+  padding: 10px 25px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.card a:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar ul li {
+    margin-bottom: 15px;
+  }
+}

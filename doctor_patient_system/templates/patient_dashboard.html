@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/patient2style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #4CAF50;
+      padding: 15px;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      display: block;
+    }
+
+    nav ul li a:hover {
+      background-color: #45a049;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: #4CAF50;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .card a {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #4CAF50;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .card a:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="#">Appointments</a></li>
+      <li><a href="{{ url_for('health_details') }}">Health Details</a></li>
+      <li><a href="#">Chat with Doctor</a></li>
+      <li><a href="{{ url_for('available_doctors') }}">Doctor Profile</a></li>
+      <li><a href="#">Medicine Reminders</a></li>
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Welcome Heading -->
+  <h2>Welcome to Your Patient Dashboard</h2>
+
+  <!-- Functionalities Section -->
+  <div class="container">
+    <!-- Appointments Section -->
+    <div class="card">
+      <h3>Appointments</h3>
+      <p>Manage and view upcoming and past appointments with your doctor.</p>
+      <h6>Before booking an appointment, check your symptoms using the chatbot. It will predict the disease and provide first-aid treatment</h1>
+      <a href="{{url_for('chatbot')}}">chatbot</a>
+      <br><br>
+      <hr>
+      <ul>
+        
+            <li><a href="{{ url_for('appointment')}}">click</a></li>
+        
+      </ul>
+    </div>
+
+    <!-- Health Details Section -->
+    <div class="card">
+      <h3>Health Details</h3>
+      <p>View or update your health details, including medical history and current treatments.</p>
+      <a href="{{ url_for('health_details') }}">View Health Details</a>
+    </div>
+       <!-- Health Monitoring & Insights -->
+       <div class="card" id="health-monitoring">
+        <h2>Health Monitoring & Insights</h2>
+        <p>Track your vital health metrics and get actionable insights.</p>
+        <div class="metrics">
+            <div class="metric">
+                <h3>Blood Pressure</h3>
+                <p>120/80 mmHg</p>
+            </div>
+            <div class="metric">
+                <h3>Heart Rate</h3>
+                <p>75 BPM</p>
+            </div>
+            <div class="metric">
+                <h3>Blood Sugar</h3>
+                <p>110 mg/dL</p>
+            </div>
+        </div>
+        <a href="health" class="button">Add New Metric</a>
+    </div>
+    <!-- Medicine Reminders Section -->
+    <div class="card">
+      <h3>Medicine Reminders</h3>
+      <p>Set reminders for taking your medication on time.</p>
+      <a href="medicine">Set Reminders</a>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Chat with Doctor</h3>
+    <label for="doctor-select">Choose a doctor:</label>
+    <select id="doctor-select">
+        <option value="">--Select Doctor--</option>
+        {% for doctor in doctors %}
+            <option value="{{ doctor.id }}">{{ doctor.full_name }}</option>
+        {% endfor %}
+    </select>
+    <button id="start-chat">Start Chat</button>
+</div>
+
+<div class="chat-section" id="chat-window" style="display:none;">
+    <h3>Chat with Doctor: <span id="doctor-name"></span></h3>
+    <div id="chat-messages"></div>
+    <input type="text" id="message-input" placeholder="Type your message here...">
+    <button id="send-message" data-sender-id="{{ patient_id }}" data-receiver-id="">Send</button>
+</div>
+
+<div class="notifications">
+    <h3>Notifications</h3>
+    <ul id="notification-list">
+        {% for notification in notifications %}
+            <li>
+                New reply from {{ notification.sender.name }}: 
+                <a href="#" class="notification-link" data-sender-id="{{ notification.sender_id }}" data-receiver-id="{{ notification.receiver_id }}">View Reply</a>
+            </li>
+        {% else %}
+            <li>No new messages.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const doctorSelect = document.getElementById('doctor-select');
+    const startChatButton = document.getElementById('start-chat');
+    const chatWindow = document.getElementById('chat-window');
+    const doctorNameDisplay = document.getElementById('doctor-name');
+    const sendMessageButton = document.getElementById('send-message');
+    const messageInput = document.getElementById('message-input');
+    const notificationLinks = document.querySelectorAll('.notification-link');
+
+    // Handle the "Start Chat" button click
+    startChatButton.addEventListener('click', function () {
+        const selectedDoctorId = doctorSelect.value;
+        const selectedDoctorName = doctorSelect.options[doctorSelect.selectedIndex].text;
+
+        if (selectedDoctorId) {
+            // Display the chat window
+            chatWindow.style.display = 'block';
+            doctorNameDisplay.textContent = selectedDoctorName;  // Display selected doctor's name
+
+            // Set the receiver ID on the send message button
+            sendMessageButton.setAttribute('data-receiver-id', selectedDoctorId);
+
+            // Fetch and display chat messages
+            fetchChatMessages(selectedDoctorId);
+        } else {
+            alert('Please select a doctor to chat with.');
+        }
+    });
+
+    // Handle notification link clicks
+    notificationLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            const senderId = this.getAttribute('data-sender-id');
+            const receiverId = this.getAttribute('data-receiver-id');
+
+            // Display the chat window
+            chatWindow.style.display = 'block';
+            doctorNameDisplay.textContent = this.textContent.split(':')[0];
+
+            // Set the receiver ID on the send message button
+            sendMessageButton.setAttribute('data-receiver-id', receiverId);
+
+            // Fetch and display chat messages
+            fetchChatMessages(receiverId);
+        });
+    });
+
+    // Handle sending messages
+    sendMessageButton.addEventListener('click', function () {
+        const message = messageInput.value;
+        const senderId = sendMessageButton.getAttribute('data-sender-id');
+        const receiverId = sendMessageButton.getAttribute('data-receiver-id');
+
+        if (message.trim() === '') {
+            alert('Please enter a message before sending.');
+            return;
+        }
+
+        // Send the message via fetch
+        fetch('/send_message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender_id: senderId,
+                receiver_id: receiverId,
+                message: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Optionally display the message in the chat window
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+                messageInput.value = '';  // Clear the input field
+            } else {
+                alert('Error sending message: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error sending message. Please try again.');
+        });
+    });
+
+    // Fetch and display chat messages
+    function fetchChatMessages(doctorId) {
+        fetch(`/chat/${doctorId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';  // Clear previous messages
+
+                data.messages.forEach(message => {
+                    chatMessages.innerHTML += `<div><strong>${message.sender.name}:</strong> ${message.content} <small>${message.timestamp}</small></div>`;
+                });
+            } else {
+                alert('Error fetching messages: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error fetching messages. Please try again.');
+        });
+    }
+
+fetchNotifications();
+  setInterval(fetchNotifications, 30000); // Fetch notifications every 10 seconds
+});
+</script>
+</body>
+</html>

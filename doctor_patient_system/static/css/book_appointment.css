@@ -1,0 +1,114 @@
+/* static/css/book_appointment.css */
+
+/* Container Styles */
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  
+  /* H1 and H2 Styles */
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+  }
+  
+  /* Symptom Checker Styles */
+  .symptom-checker .hidden {
+    display: none;
+  }
+  
+  .symptom-checker label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+  }
+  
+  .symptom-checker input, .symptom-checker select, .symptom-checker button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+  }
+  
+  .symptom-checker button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .symptom-checker button:hover {
+    background-color: #218838;
+  }
+  
+  /* Appointment Booking Form Styles */
+  .appointment-form {
+    border-top: 2px solid #4CAF50;
+    padding-top: 20px;
+  }
+  
+  .appointment-form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+  }
+  
+  .appointment-form select, .appointment-form input[type="date"], .appointment-form input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+  }
+  
+  .appointment-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+  }
+  
+  .appointment-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Results Section Styles */
+  .results {
+    background-color: #e9ffe9;
+    border: 1px solid #4CAF50;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .results p {
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .container {
+      margin: 10px;
+      padding: 20px;
+    }
+  }
+  

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Symptom Checker</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen">
+            <h1>AI Symptom Checker</h1>
+            <p>Get instant insights about your symptoms.</p>
+            <button id="start-checkup">Start Checkup</button>
+        </div>
+
+        <!-- Basic Information Screen -->
+        <div id="info-screen" class="hidden">
+            <h2>Basic Information</h2>
+            <label for="name">Name (Optional)</label>
+            <input type="text" id="name" placeholder="Your Name">
+
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Your Age">
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-binary</option>
+            </select>
+
+            <button id="continue-info">Continue</button>
+        </div>
+
+        <!-- Symptom Input Screen -->
+        <div id="symptom-screen" class="hidden">
+            <h2>Describe Your Symptoms</h2>
+            <label for="symptom">Symptom</label>
+            <input type="text" id="symptom" placeholder="Enter your symptoms">
+            
+            <label for="duration">How long have you had this symptom?</label>
+            <input type="number" id="duration" placeholder="Duration in days">
+            
+            <label for="severity">Severity</label>
+            <select id="severity">
+                <option value="mild">Mild</option>
+                <option value="moderate">Moderate</option>
+                <option value="severe">Severe</option>
+            </select>
+
+            <button id="analyze-symptoms">Analyze Symptoms</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="hidden">
+            <h2>Possible Conditions</h2>
+            <div id="conditions">
+                <!-- AI Analysis Results will appear here -->
+            </div>
+            <button id="start-over">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Code
+        const startCheckupButton = document.getElementById('start-checkup');
+        const infoScreen = document.getElementById('info-screen');
+        const symptomScreen = document.getElementById('symptom-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const continueInfoButton = document.getElementById('continue-info');
+        const analyzeSymptomsButton = document.getElementById('analyze-symptoms');
+        const startOverButton = document.getElementById('start-over');
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const conditionsDiv = document.getElementById('conditions');
+
+        // Show Symptom Input Screen after entering basic info
+        startCheckupButton.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+            infoScreen.classList.remove('hidden');
+        });
+
+        continueInfoButton.addEventListener('click', () => {
+            infoScreen.classList.add('hidden');
+            symptomScreen.classList.remove('hidden');
+        });
+
+        // Simulated Analysis (Placeholder for AI integration)
+        analyzeSymptomsButton.addEventListener('click', () => {
+            const symptom = document.getElementById('symptom').value;
+            const duration = document.getElementById('duration').value;
+            const severity = document.getElementById('severity').value;
+
+            symptomScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            let possibleConditions = '';
+
+            if (severity === 'mild') {
+                possibleConditions = `
+                    <p><strong>Common Cold</strong> - Mild symptoms with short duration.</p>
+                    <p><strong>Allergy</strong> - Mild symptoms, commonly associated with environment.</p>
+                `;
+            } else if (severity === 'moderate') {
+                possibleConditions = `
+                    <p><strong>Flu</strong> - Symptoms might last longer with moderate discomfort.</p>
+                    <p><strong>COVID-19</strong> - Symptoms such as cough, fever, or loss of taste/smell.</p>
+                `;
+            } else if (severity === 'severe') {
+                possibleConditions = `
+                    <p><strong>Pneumonia</strong> - Serious symptoms, requires medical attention.</p>
+                    <p><strong>Severe Infection</strong> - Severe symptoms should not be ignored.</p>
+                `;
+            }
+
+            conditionsDiv.innerHTML = possibleConditions;
+        });
+
+        // Restart the Symptom Checker
+        startOverButton.addEventListener('click', () => {
+            resultsScreen.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        });
+    </script>
+
+</body>
+</html>

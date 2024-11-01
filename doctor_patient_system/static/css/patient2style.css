@@ -1,0 +1,130 @@
+/* Resetting margins and paddings for better control */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Body Styling */
+  body {
+    background-color: #f0f4f8;
+    color: #333;
+    font-family: 'Helvetica', sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* Navigation Bar */
+  nav {
+    background-color: #007bff; /* Blue background */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+  }
+  
+  nav ul li {
+    margin: 0 10px;
+  }
+  
+  nav ul li a {
+    color: white; /* White text color */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  nav ul li a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-radius: 5px;
+  }
+  
+  /* Main Heading */
+  h2 {
+    text-align: center;
+    color: #007bff;
+    margin-top: 30px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  /* Adding functionality to the body */
+  body {
+    padding: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-top: 40px;
+    color: #007bff;
+  }
+  
+  /* Flexbox container for functionalities */
+  .container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: 50px;
+  }
+  
+  .card {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #007bff;
+  }
+  
+  .card p {
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .card a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .card a:hover {
+    color: #0056b3;
+  }
+  
+  /* Media Queries for Mobile Responsiveness */
+  @media (max-width: 768px) {
+    nav ul {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card {
+      width: 90%;
+    }
+  }
+  

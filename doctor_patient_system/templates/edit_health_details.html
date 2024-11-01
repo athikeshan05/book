@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Health Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/healthstyle.css') }}">
+</head>
+<body>
+    <div class="card">
+        <div><h1>Edit Health Details</h1></div>
+        <form action="{{ url_for('edit_health_details') }}" method="POST">
+            <h4>Personal Information</h4>
+            <label>Full Name:</label>
+            <input type="text" name="full_name" value="{{health_history.full_name}}" required><br>
+            <label>Age:</label>
+            <input type="number" name="age" value="{{ health_history.age }}" required><br>
+            <label>Gender:</label>
+            <input type="text" name="gender" value="{{ health_history.gender }}" required><br>
+      
+            <h4>Medical History</h4>
+            <label>High Blood Pressure:</label>
+            <input type="text" name="high_blood_pressure" value="{{ health_history.high_blood_pressure }}" required><br>
+            <label>Blood Pressure Rate:</label>
+            <input type="text" name="blood_pressure_rate" value="{{ health_history.blood_pressure_rate }}" required><br>
+            <label>Diabetes:</label>
+            <input type="text" name="diabetes" value="{{ health_history.diabetes }}" required><br>
+            <label>Glucose Level:</label>
+            <input type="text" name="glucose_level" value="{{ health_history.glucose_level }}" required><br>
+            <label>Allergies:</label>
+            <input type="text" name="allergies" value="{{ health_history.allergies }}" required><br>
+            <label>Allergy Info:</label>
+            <input type="text" name="allergy_info" value="{{ health_history.allergy_info }}" required><br>
+      
+            <h4>Family History</h4>
+            <label>Heart Disease:</label>
+            <input type="text" name="family_heart_disease" value="{{ health_history.family_heart_disease }}" required><br>
+            <label>Cancer:</label>
+            <input type="text" name="family_cancer" value="{{ health_history.family_cancer }}" required><br>
+      
+            <h4>Lifestyle</h4>
+            <label>Smoking:</label>
+            <input type="text" name="smoke" value="{{ health_history.smoke }}" required><br>
+            <label>Alcohol:</label>
+            <input type="text" name="alcohol" value="{{ health_history.alcohol }}" required><br>
+            <br>
+            <button id='bt' type="submit">Save Changes</button>
+        </form>
+        <br><a href="{{ url_for('patient_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

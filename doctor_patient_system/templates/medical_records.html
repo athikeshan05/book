@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Records</title>
+   
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: black;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: black;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .record-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .record-card h3 {
+            color: grey;
+            margin-bottom: 10px;
+        }
+
+        .record-card p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            background-color: snow;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color:black;
+        }
+
+        /* Add styling for the form */
+        .form-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('doctor_dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('appointment') }}">Appointments</a></li>
+            <li><a href="{{ url_for('view_medical_records') }}">Medical Records</a></li>
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Heading -->
+    <h2>Medical Records</h2>
+
+    <!-- Form to Add Prescription -->
+    <div class="form-container">
+        <h3>Add Prescription</h3>
+        <form id="prescriptionForm" method="POST" action="{{ url_for('add_prescription') }}" enctype="multipart/form-data">
+            <input type="text" name="patient_name" placeholder="Patient Name" required>
+            <input type="text" name="condition" placeholder="Condition" required>
+            <input type="text" name="medication" placeholder="Medication" required>
+            <input type="text" name="dosage" placeholder="Dosage" required>
+            <input type="datetime-local" name="reminder_time" placeholder="Set Reminder Time" required>
+            <input type="file" name="prescription_image" accept="image/*">
+            <button type="submit" class="btn">Add Prescription</button>
+        </form>
+    </div>
+
+    <!-- Medical Records Container -->
+    <div class="container">
+        {% for record in medical_records %}
+        <div class="record-card">
+            <h3>Patient Name: {{ record.patient_name }}</h3>
+            <p>Age: {{ record.age }}</p>
+            <p>Condition: {{ record.condition }}</p>
+            <p>Prescribed Medication: {{ record.medication }}</p>
+            <p>Dosage: {{ record.dosage }}</p>
+            <p>Date: {{ record.date }}</p>
+            <div class="button-container">
+                <button class="btn">Update</button>
+                <button class="btn">Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

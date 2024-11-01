@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracking & Goals</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h2 {
+            color: #333;
+        }
+
+        .graphs {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .graph {
+            width: 30%;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-form {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .progress-goals {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #3e2d91;
+            border-radius: 5px;
+        }
+
+        .progress-bar-inner {
+            height: 20px;
+            background-color: #28a745;
+            width: 70%; /* Adjust based on progress */
+            border-radius: 5px;
+        }
+
+        .ai-suggestions {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fffbe6;
+            border-radius: 5px;
+            border-left: 5px solid #ffcc00;
+        }
+
+        .goal-message {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <h1>Track Your Health</h1>
+    <p>Stay on top of your health by tracking vital metrics and setting goals to improve your well-being.</p>
+
+    <!-- Graphs Section -->
+    <div class="section">
+        <h2>Health Metrics Over Time</h2>
+        <div class="graphs">
+            <div class="graph" id="bp-graph">
+                <h3>Blood Pressure</h3>
+                <canvas id="bloodPressureChart"></canvas>
+            </div>
+            <div class="graph" id="weight-graph">
+                <h3>Weight Change</h3>
+                <canvas id="weightChart"></canvas>
+            </div>
+            <div class="graph" id="exercise-graph">
+                <h3>Exercise Tracking</h3>
+                <canvas id="stepsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form for Inputting New Metrics -->
+    <div class="input-form">
+        <h2>Log New Health Data</h2>
+        <form id="log-data-form">
+            <input type="date" name="date" placeholder="Date" required>
+            <input type="number" name="bloodPressure" placeholder="Blood Pressure (mmHg)" required>
+            <input type="number" name="weight" placeholder="Weight (kg)" required>
+            <input type="number" name="steps" placeholder="Steps" required>
+            <button type="submit" class="button">Log This Data</button>
+        </form>
+    </div>
+
+    <!-- Health Progress & Goals -->
+    <div class="progress-goals">
+        <h2>Your Health Progress & Goals</h2>
+        <p>Set and track health goals to achieve a healthier lifestyle.</p>
+
+        <!-- Dynamic Goal Display -->
+        <div id="goals-container"></div>
+
+        <!-- AI-Powered Suggestions -->
+        <div class="ai-suggestions">
+            <h4>AI-Powered Suggestions:</h4>
+            <p id="suggestion-text">Try 30 minutes of yoga today to meet your fitness goals.</p>
+        </div>
+        <button class="button" onclick="setNewGoal()">Set New Goal</button>
+    </div>
+
+</div>
+
+<!-- Chart.js for graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const bloodPressureData = [];
+    const weightData = [];
+    const stepsData = [];
+
+    const bpCtx = document.getElementById('bloodPressureChart').getContext('2d');
+    const bloodPressureChart = new Chart(bpCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Blood Pressure (mmHg)',
+                data: bloodPressureData,
+                borderColor: '#007BFF',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'Date' } },
+                y: { title: { display: true, text: 'Blood Pressure (mmHg)' } }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+
+    const weightCtx = document.getElementById('weightChart').getContext('2d');
+    const weightChart = new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Weight (kg)',
+                data: weightData,
+                borderColor: '#28a745',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'Date' } },
+                y: { title: { display: true, text: 'Weight (kg)' } }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+
+    const stepsCtx = document.getElementById('stepsChart').getContext('2d');
+    const stepsChart = new Chart(stepsCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Steps',
+                data: stepsData,
+                borderColor: '#ffcc00',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'Date' } },
+                y: { title: { display: true, text: 'Steps' } }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+
+    document.getElementById('log-data-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const date = formData.get('date');
+        const bloodPressure = parseInt(formData.get('bloodPressure'));
+        const weight = parseInt(formData.get('weight'));
+        const steps = parseInt(formData.get('steps'));
+
+        // Update the charts
+        bloodPressureData.push(bloodPressure);
+        weightData.push(weight);
+        stepsData.push(steps);
+        bloodPressureChart.data.labels.push(date);
+        weightChart.data.labels.push(date);
+        stepsChart.data.labels.push(date);
+        bloodPressureChart.update();
+        weightChart.update();
+        stepsChart.update();
+
+        // Update goals based on the latest data
+        updateGoals(bloodPressure, weight, steps);
+
+        // Reset the form
+        event.target.reset();
+    });
+
+    function updateGoals(bp, weight, steps) {
+        const goalsContainer = document.getElementById('goals-container');
+        goalsContainer.innerHTML =` 
+            <div class="goal">
+                <strong>Blood Pressure Goal:</strong> <span class="goal-message">${bp < 120 ? 'Well Done! Keep it up!' : 'Aim for less than 120 mmHg.'}</span>
+                <div class="progress-bar"><div class="progress-bar-inner" style="width: ${bp < 120 ? '100%' : '50%'};"></div></div>
+            </div>
+            <div class="goal">
+                <strong>Weight Goal:</strong> <span class="goal-message">${weight < 70 ? 'Great job on maintaining a healthy weight!' : 'Try to reach your ideal weight of less than 70 kg.'}</span>
+                <div class="progress-bar"><div class="progress-bar-inner" style="width: ${weight < 70 ? '100%' : '50%'};"></div></div>
+            </div>
+            <div class="goal">
+                <strong>Steps Goal:</strong> <span class="goal-message">${steps >= 10000 ? 'Fantastic! You reached your daily goal!' : 'Aim for at least 10,000 steps daily.'}</span>
+                <div class="progress-bar"><div class="progress-bar-inner" style="width: ${steps >= 10000 ? '100%' : '50%'};"></div></div>
+            </div>
+        `;
+    }
+
+    function setNewGoal() {
+        // Logic to set new goals based on user progress
+        document.getElementById('suggestion-text').innerText = 'Consider incorporating a 30-minute workout into your routine.';
+    }
+</script>
+</body>
+</html>

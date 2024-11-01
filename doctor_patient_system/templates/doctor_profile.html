@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ doctor.full_name }} - Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prostyle.css') }}">
+
+</head>
+<body>
+    <div class="profile-container">
+        <h1>{{ doctor.full_name }}</h1>
+        <img src="{{ url_for('static', filename='images/default_profile.png') }}" alt="Profile Photo" class="profile-photo">
+        <p><strong>Email:</strong> {{ doctor.email }}</p>
+        <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+        <p><strong>Specialty:</strong> {{ doctor.specialty }}</p>
+        <p><strong>Subspecialty:</strong> {{ doctor.subspecialty }}</p>
+        <p><strong>Experience:</strong> {{ doctor.experience_years }} years</p>
+        <p><strong>Clinic Name:</strong> {{ doctor.clinic_name }}</p>
+        <p><strong>Clinic Address:</strong> {{ doctor.clinic_address }}</p>
+        <p><strong>working_days</strong> {{ doctor.working_days }}</p>
+        <p><strong>working_hours</strong> {{ doctor.working_hours }}</p>
+        <p><strong>Consultation Fees:</strong> ${{ doctor.consultation_fees }}</p><br>
+        <a href="{{ url_for('appointment') }}">Back to appoinment</a>
+    </div>
+</body>
+</html>
